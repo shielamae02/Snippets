@@ -1,4 +1,4 @@
-const SolanaProviders = ({ children }) => {
+const SolanaProvider = ({ children }) => {
     return (
         <>
             {children}
@@ -6,4 +6,4 @@ const SolanaProviders = ({ children }) => {
     )
 };
 
-export default SolanaProviders;
+export default SolanaProvider;
