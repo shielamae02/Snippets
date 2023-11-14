@@ -40,7 +40,6 @@ const SolanaProvider = ({ children }) => {
     const { publicKey } = useWallet()
     const { disconnect } = useWallet();
 
-
     const program = useMemo(() => {
         if (anchorWallet) {
             const provider = new anchor.AnchorProvider(
@@ -52,7 +51,6 @@ const SolanaProvider = ({ children }) => {
         return null;
     }, [connection, anchorWallet])
 
-
     useEffect(() => {
         const start = async () => {
             if (program && publicKey) {
@@ -60,7 +58,7 @@ const SolanaProvider = ({ children }) => {
                     const [userPda] = await findProgramAddressSync([utf8.encode('user'), publicKey.toBuffer()], program.programId);
 
                     const user = await program.account.userAccount.fetch(userPda);
-
+                    
                     if (user) {
                         setInitialized(true);
                         setUser(user);
@@ -125,11 +123,6 @@ const SolanaProvider = ({ children }) => {
                         systemProgram: SystemProgram.programId,
                     })
                     .rpc()
-
-                if (newPost) {
-                    console.log(success);
-                    setSuccess(true);
-                }
             } catch (error) {
                 console.error(error)
             } finally {
@@ -148,7 +141,8 @@ const SolanaProvider = ({ children }) => {
                 disconnectWallet,
                 createPost,
                 success,
-                setSuccess
+                setSuccess,
+                transactionPending
             }}>
             {children}
         </BlogContext.Provider>
