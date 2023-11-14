@@ -1,3 +1,4 @@
+import { Buffer } from 'buffer';
 import { useEffect, useState } from "react";
 import { useBlog } from "../context/SolanaProvider";
 import { useWallet } from "@solana/wallet-adapter-react"
@@ -37,7 +38,7 @@ const Dashboard = () => {
 
 
     return (
-        <main className={`bg-[#F4EEF6] w-screen ${connected ? "h-full" : "h-screen"}`}>
+        <main className={`bg-[#F4EEF6] w-screen ${connected ? (posts.length < 4 ? "h-screen" : "h-full") : "h-screen"}`}>
             <div className="max-w-screen-2xl mx-auto px-4 2xl:px-0 h-full">
                 {/* Navbar */}
                 <div className="absolute top-0 left-0 right-0">
@@ -83,7 +84,7 @@ const Dashboard = () => {
 
                         {/* Posts View */}
                         {connected && (
-                            <div className="relative overflow-y-auto mt-4 w-full flex flex-col">
+                            <div className="relative overflow-y-auto my-4 w-full flex flex-col">
                                 {posts.map((item) => {
                                     return (
                                         <PostCard
