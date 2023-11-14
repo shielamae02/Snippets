@@ -35,9 +35,9 @@ const Dashboard = () => {
         }
     }, [user])
 
-    
-    return ( 
-        <main className={`bg-[#F4EEF6] w-screen ${posts.length < 4 ? "h-screen" : "h-full"}`}>
+
+    return (
+        <main className={`bg-[#F4EEF6] w-screen ${connected ? "h-full" : "h-screen"}`}>
             <div className="max-w-screen-2xl mx-auto px-4 2xl:px-0 h-full">
                 {/* Navbar */}
                 <div className="absolute top-0 left-0 right-0">
@@ -51,38 +51,38 @@ const Dashboard = () => {
                         username={user?.name}
                         avatar={user?.avatar} />
                 </div>
-                
+
                 {/* Body */}
-                { connected && (
-                    <div className="pt-24 h-full w-full flex grap-8 gap-4">
-                        {/* Profile */}
-                        <div className="w-[45%] 2xl:w-[55%] h-96">
-                            <Profile
-                                connected={connected}
-                                disconnect={disconnectWallet}
-                                avatar={user?.avatar} />
+                <div className="pt-24 h-full w-full flex grap-8 gap-4">
+                    {/* Profile */}
+                    <div className="w-[45%] 2xl:w-[55%] h-96">
+                        <Profile
+                            connected={connected}
+                            disconnect={disconnectWallet}
+                            avatar={user?.avatar} />
+                    </div>
+
+                    {/* Feed */}
+                    <div className="w-full">
+                        {/* Create Post */}
+                        <div className="flex flex-col">
+                            <div className="pb-4">
+                                <p className="font-semibold text-xl">
+                                    Hey, there!
+                                </p>
+                                <p className="font-bold text-3xl">
+                                    What's up?👋
+                                </p>
+                            </div>
+                            <CreatePost
+                                avatar={user?.avatar}
+                                postContent={postContent}
+                                setPostContent={setPostContent}
+                                onSubmit={() => createPost(postContent)} />
                         </div>
 
-                        {/* Feed */}
-                        <div className="w-full">
-                            {/* Create Post */}
-                            <div className="flex flex-col">
-                                <div className="pb-4">
-                                    <p className="font-semibold text-xl">
-                                        Hey, there!
-                                    </p>
-                                    <p className="font-bold text-3xl">
-                                        What's up?👋
-                                    </p>
-                                </div>
-                                <CreatePost
-                                    avatar={user?.avatar}
-                                    postContent={postContent}
-                                    setPostContent={setPostContent}
-                                    onSubmit={() => createPost(postContent)} />
-                            </div>
-
-                            {/* Posts View */}
+                        {/* Posts View */}
+                        {connected && (
                             <div className="relative overflow-y-auto mt-4 w-full flex flex-col">
                                 {posts.map((item) => {
                                     return (
@@ -93,9 +93,9 @@ const Dashboard = () => {
                                     )
                                 })}
                             </div>
-                        </div>
+                        )}
                     </div>
-                )}
+                </div>
             </div>
 
         </main>
