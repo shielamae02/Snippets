@@ -1,8 +1,17 @@
+import { Route, Routes, BrowserRouter } from "react-router-dom";
+import Dashboard from "./pages/Dashboard";
+import SolanaProvider from "./context/SolanaProvider";
+
+
 const App = () => {
   return (
-    <>
-      <h1 className="text-3xl underline">Helllo World</h1>
-    </>
+    <SolanaProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" index element={<Dashboard/>} />
+        </Routes>
+      </BrowserRouter>
+    </SolanaProvider>
   );
 };
 
