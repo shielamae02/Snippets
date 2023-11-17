@@ -18,8 +18,6 @@ const Dashboard = () => {
     const [postContent, setPostContent] = useState("");
     const [showModal, setShowModal] = useState(false);
 
-    console.log(showModal)
-
     const {
         user,
         initUser,
