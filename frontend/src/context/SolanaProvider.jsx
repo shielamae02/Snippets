@@ -1,5 +1,6 @@
 import * as anchor from '@project-serum/anchor'
 import { useAnchorWallet, useConnection, useWallet } from '@solana/wallet-adapter-react'
+import { PhantomWalletName } from "@solana/wallet-adapter-phantom";
 import { PublicKey, SystemProgram } from "@solana/web3.js";
 import {
     createContext,
@@ -31,14 +32,12 @@ const SolanaProvider = ({ children }) => {
     const [user, setUser] = useState();
     const [initialized, setInitialized] = useState(false);
     const [posts, setPosts] = useState([])
-    const [success, setSuccess] = useState(false);
     const [transactionPending, setTransactionPending] = useState(false)
     const [lastPostId, setLastPostId] = useState(0)
 
     const anchorWallet = useAnchorWallet();
     const { connection } = useConnection();
-    const { publicKey } = useWallet()
-    const { disconnect } = useWallet();
+    const { publicKey, disconnect } = useWallet();
 
     const program = useMemo(() => {
         if (anchorWallet) {
@@ -49,7 +48,8 @@ const SolanaProvider = ({ children }) => {
             return new anchor.Program(idl, PROGRAM_KEY, provider)
         }
         return null;
-    }, [connection, anchorWallet])
+    }, [connection, anchorWallet]);
+
 
     useEffect(() => {
         const start = async () => {
@@ -58,7 +58,7 @@ const SolanaProvider = ({ children }) => {
                     const [userPda] = await findProgramAddressSync([utf8.encode('user'), publicKey.toBuffer()], program.programId);
 
                     const user = await program.account.userAccount.fetch(userPda);
-                    
+
                     if (user) {
                         setInitialized(true);
                         setUser(user);
@@ -69,7 +69,6 @@ const SolanaProvider = ({ children }) => {
                         setPosts(postAccounts)
                     }
                 } catch (error) {
-                    console.log(error)
                     setInitialized(false)
                 }
             }
@@ -82,19 +81,29 @@ const SolanaProvider = ({ children }) => {
         if (program && publicKey) {
             try {
                 setTransactionPending(true)
-                const [userPda] = findProgramAddressSync([utf8.encode('user'), publicKey.toBuffer()], program.programId)
-                const name = getRandomName();
-                const avatar = getAvatarUrl(name);
 
-                await program.methods
-                    .initUser(name, avatar)
-                    .accounts({
-                        userAccount: userPda,
-                        authority: publicKey,
-                        systemProgram: SystemProgram.programId,
-                    })
-                    .rpc()
-                setInitialized(true)
+                const [userPda] = findProgramAddressSync([utf8.encode('user'), publicKey.toBuffer()], program.programId);
+
+                const user = await program.account.userAccount.fetch(userPda);
+
+                if (user) {
+                    setInitialized(true);
+                    setUser(user);
+                    setLastPostId(user.lastPostId);
+                } else {
+                    const name = getRandomName();
+                    const avatar = getAvatarUrl(name);
+
+                    await program.methods
+                        .initUser(name, avatar)
+                        .accounts({
+                            userAccount: userPda,
+                            authority: publicKey,
+                            systemProgram: SystemProgram.programId,
+                        })
+                        .rpc();
+                    setInitialized(true);
+                }
             } catch (error) {
                 console.log(error)
             } finally {
@@ -114,7 +123,7 @@ const SolanaProvider = ({ children }) => {
                 const [userPda] = findProgramAddressSync([utf8.encode('user'), publicKey.toBuffer()], program.programId)
                 const [postPda] = findProgramAddressSync([utf8.encode('post'), publicKey.toBuffer(), Uint8Array.from([lastPostId])], program.programId)
 
-                const newPost = await program.methods
+                await program.methods
                     .createPost(content)
                     .accounts({
                         userAccount: userPda,
@@ -140,8 +149,6 @@ const SolanaProvider = ({ children }) => {
                 initUser,
                 disconnectWallet,
                 createPost,
-                success,
-                setSuccess,
                 transactionPending
             }}>
             {children}
