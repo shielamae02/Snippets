@@ -1,4 +1,4 @@
-import { useMemo } from "react"
+import { useMemo, Suspense} from "react"
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
 import SolanaProvider from "./context/SolanaProvider";
@@ -16,17 +16,19 @@ const App = () => {
   )
 
   return (
-    <ConnectionProvider endpoint={endpoint}>
-      <WalletProvider wallets={wallets} autoConnect>
-        <SolanaProvider>
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" index element={<Dashboard />} />
-            </Routes>
-          </BrowserRouter>
-        </SolanaProvider>
-      </WalletProvider>
-    </ConnectionProvider>
+    <Suspense fallback={<h1>Hello World</h1>}>
+      <ConnectionProvider endpoint={endpoint}>
+        <WalletProvider wallets={wallets} autoConnect>
+          <SolanaProvider>
+            <BrowserRouter>
+              <Routes>
+                <Route path="/" index element={<Dashboard />} />
+              </Routes>
+            </BrowserRouter>
+          </SolanaProvider>
+        </WalletProvider>
+      </ConnectionProvider>
+    </Suspense>
   );
 };
 
