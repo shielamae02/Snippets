@@ -58,7 +58,7 @@ const SolanaProvider = ({ children }) => {
                     const [userPda] = await findProgramAddressSync([utf8.encode('user'), publicKey.toBuffer()], program.programId);
 
                     const user = await program.account.userAccount.fetch(userPda);
-                    
+
                     if (user) {
                         setInitialized(true);
                         setUser(user);
@@ -86,14 +86,14 @@ const SolanaProvider = ({ children }) => {
 
                 const user = await program.account.userAccount.fetch(userPda);
 
-                if(user){
+                if (user) {
                     setInitialized(true);
                     setUser(user);
                     setLastPostId(user.lastPostId);
                 } else {
                     const name = getRandomName();
                     const avatar = getAvatarUrl(name);
-                    
+
                     await program.methods
                         .initUser(name, avatar)
                         .accounts({

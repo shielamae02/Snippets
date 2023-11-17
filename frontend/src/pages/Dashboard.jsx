@@ -1,4 +1,3 @@
-import { Buffer } from 'buffer';
 import { useEffect, useState } from "react";
 import { useBlog } from "../context/SolanaProvider";
 import { useWallet } from "@solana/wallet-adapter-react"
@@ -10,21 +9,25 @@ import {
     CreatePost
 } from "../components";
 
-
 const Dashboard = () => {
+
     const [connecting, setConnecting] = useState(false);
     const { select, connected } = useWallet();
     const [postContent, setPostContent] = useState("");
 
     const {
         user,
-        initialized,
         initUser,
+        initialized,
         disconnectWallet,
         createPost,
         posts
     } = useBlog();
 
+    const onConnect = () => {
+        setConnecting(true)
+        select(PhantomWalletName)
+    }
 
     useEffect(() => {
         if (user) {
@@ -39,10 +42,7 @@ const Dashboard = () => {
                 {/* Navbar */}
                 <div className="absolute top-0 left-0 right-0">
                     <Navbar
-                        connect={() => {
-                            setConnecting(true);
-                            select(PhantomWalletName)
-                        }}
+                        connect={onConnect}
                         connecting={connecting}
                         connected={connected}
                         initialized={initialized}
@@ -78,7 +78,6 @@ const Dashboard = () => {
                             <CreatePost
                                 initialized={initialized}
                                 connected={connected}
-                                loading={connecting}
                                 avatar={user?.avatar}
                                 postContent={postContent}
                                 setPostContent={setPostContent}

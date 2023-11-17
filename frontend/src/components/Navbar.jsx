@@ -9,28 +9,33 @@ const Navbar = (prop) => {
                         Snippets
                     </h1>
                     <div className="flex gap-5">
-                        {prop.initialized ? (
+                        {
                             prop.connected ? (
-                                <div className="flex items-center">
-                                    <div className="flex justify-center items-center gap-2  rounded-lg">
-                                        <p className="text-lg font-semibold text-primary-light">
-                                            {prop.username}
-                                        </p>
-                                        <img src={prop.avatar} className="h-10 w-10 bg-jetblack-light rounded-full bg-tertiary-100" />
+                                prop.initialized ? (
+                                    <div className="flex items-center">
+                                        <div className="flex justify-center items-center gap-2  rounded-lg">
+                                            <p className="text-lg font-semibold text-primary-light">
+                                                {prop.username}
+                                            </p>
+                                            <img src={prop.avatar} className="h-10 w-10 bg-jetblack-light rounded-full bg-tertiary-100" />
+                                        </div>
                                     </div>
-                                </div>
-                            ) : <Button
+                                ) : (
+                                        <Button
+                                            className="ml-3"
+                                            loading={prop.connecting}
+                                            onClick={prop.initUser}>
+                                            Initialize User 🔑
+                                        </Button>
+                                )
+                            ): (
+                                <Button
                                 className="ml-3"
                                 loading={prop.connecting}
                                 onClick={prop.connect}>
                                     Connect Wallet 🚀
                             </Button>
-                        ) : <Button
-                            className="ml-3"
-                            loading={prop.connecting}
-                            onClick={prop.initUser}>
-                                Initialize User 🔑
-                        </Button>
+                            )
                         }
                     </div>
                 </div>

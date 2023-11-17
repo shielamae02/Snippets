@@ -27,7 +27,7 @@ const Profile = (prop) => {
 
     return (
         <div className="bg-white w-full h-full rounded-2xl shadow-xl p-4 flex flex-col items-center justify-center">
-            {publicKey && publicKey.toBase58() && prop.connected && prop.initialized? (
+            {publicKey && publicKey.toBase58() && prop.connected && prop.initialized ? (
                 <>
                     <img src={prop.avatar} className="h-28 w-28 bg-jetblack-light rounded-full mb-8" />
                     <h1 className="whitespace-normal max-w-full break-words text-lg text-gray-500 font-semibold uppercase text-center">
