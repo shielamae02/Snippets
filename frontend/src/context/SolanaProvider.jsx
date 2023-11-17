@@ -1,6 +1,5 @@
 import * as anchor from '@project-serum/anchor'
 import { useAnchorWallet, useConnection, useWallet } from '@solana/wallet-adapter-react'
-import { PhantomWalletName } from "@solana/wallet-adapter-phantom";
 import { PublicKey, SystemProgram } from "@solana/web3.js";
 import {
     createContext,
