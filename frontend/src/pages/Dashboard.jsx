@@ -25,30 +25,29 @@ const Dashboard = () => {
         posts
     } = useBlog();
 
-    const onConnect = () => {
-        setConnecting(true);
-        select(PhantomWalletName)
-    }
 
     useEffect(() => {
         if (user) {
             setConnecting(false)
         }
-    }, [user])
-
+        select(PhantomWalletName)
+    }, [user]);
 
     return (
-        <main className={`bg-[#F4EEF6] w-screen ${connected ? (posts.length < 4 ? "h-screen" : "h-full") : "h-screen"}`}>
+        <main className={`bg-[#F4EEF6] w-screen ${initialized && connected ? (posts.length < 4 ? "h-screen" : "h-full") : "h-screen"}`}>
             <div className="max-w-screen-2xl mx-auto px-4 2xl:px-0 h-full">
                 {/* Navbar */}
                 <div className="absolute top-0 left-0 right-0">
                     <Navbar
-                        connected={connected}
-                        onConnect={onConnect}
-                        initialized={initialized}
-                        disconnect={disconnectWallet}
-                        initUser={() => initUser()}
+                        connect={() => {
+                            setConnecting(true);
+                            select(PhantomWalletName)
+                        }}
                         connecting={connecting}
+                        connected={connected}
+                        initialized={initialized}
+                        initUser={() => initUser()}
+                        loading={connecting}
                         username={user?.name}
                         avatar={user?.avatar} />
                 </div>
@@ -58,6 +57,7 @@ const Dashboard = () => {
                     {/* Profile */}
                     <div className="w-[45%] 2xl:w-[55%] h-96">
                         <Profile
+                            initialized={initialized}
                             connected={connected}
                             disconnect={disconnectWallet}
                             avatar={user?.avatar} />
@@ -76,6 +76,9 @@ const Dashboard = () => {
                                 </p>
                             </div>
                             <CreatePost
+                                initialized={initialized}
+                                connected={connected}
+                                loading={connecting}
                                 avatar={user?.avatar}
                                 postContent={postContent}
                                 setPostContent={setPostContent}
@@ -83,7 +86,7 @@ const Dashboard = () => {
                         </div>
 
                         {/* Posts View */}
-                        {connected && (
+                        {connected && initialized && (
                             <div className="relative overflow-y-auto my-4 w-full flex flex-col">
                                 {posts.map((item) => {
                                     return (
@@ -98,7 +101,6 @@ const Dashboard = () => {
                     </div>
                 </div>
             </div>
-
         </main>
     );
 }
