@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useBlog } from "../context/SolanaProvider";
 import { useWallet } from "@solana/wallet-adapter-react"
 import { PhantomWalletName } from "@solana/wallet-adapter-wallets";
+import { generateRandomLetters, getRandomName } from "../functions/getRandomName";
+import { getAvatarUrl } from "../functions/getAvatarUrl";
 import { motion } from "framer-motion"
 import {
     PostCard,
@@ -114,10 +116,14 @@ const Dashboard = () => {
                         {connected && initialized && (
                             <div className="relative overflow-y-auto my-4 w-full flex flex-col">
                                 {posts.map((item) => {
+                                    const randomLetters = generateRandomLetters(10);
+                                    const avatar =  getAvatarUrl(randomLetters);
+                                    const randomName = getRandomName();
+                                    
                                     return (
                                         <PostCard
-                                            username={user?.name}
-                                            avatar={user?.avatar}
+                                            username={randomName}
+                                            avatar={avatar}
                                             key={item.account.id}
                                             content={item.account.content}
                                         />
