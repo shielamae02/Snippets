@@ -44,36 +44,6 @@ const Navbar = (prop) => {
                                 </Button>
                             )
                         }
-                        {/* {
-                            prop.connected ? (
-                                prop.initialized ? (
-                                    <div className="flex items-center">
-                                        <div className="flex justify-center items-center gap-2  rounded-lg">
-                                            <p className="text-lg font-semibold text-primary-light">
-                                                {prop.username}
-                                            </p>
-                                            <img
-                                                onClick={prop.toggleModal}
-                                                src={prop.avatar} className="h-10 w-10 cursor-pointer lg:cursor-none lg:pointer-events-none bg-jetblack-light rounded-full bg-tertiary-100" />
-                                        </div>
-                                    </div>
-                                ) : (
-                                    <Button
-                                        className="ml-3"
-                                        loading={prop.connecting}
-                                        onClick={prop.initUser}>
-                                        Initialize User 🔑
-                                    </Button>
-                                )
-                            ) : (
-                                <Button
-                                    className="ml-3"
-                                    loading={prop.connecting}
-                                    onClick={prop.connect}>
-                                    Connect Wallet 🚀
-                                </Button>
-                            )
-                        } */}
                     </div>
                 </div>
             </div>
