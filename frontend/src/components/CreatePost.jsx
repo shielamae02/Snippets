@@ -26,7 +26,7 @@ const CreatePost = (prop) => {
                     name="content"
                     id="content-area"
                     className="resize-none transition rounded-md p-2 w-full focus:outline-none font-normal text-lg h-20"
-                    placeholder="Spill the tea! 🍵" />
+                    placeholder="Spill the tea anonymously! 🍵" />
 
             </div>
             <div className="w-full bg-gray-200 rounded-full h-[0.1rem]" />
