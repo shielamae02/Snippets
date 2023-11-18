@@ -118,6 +118,8 @@ const Dashboard = () => {
                                 {posts.map((item) => {
                                     return (
                                         <PostCard
+                                            username={user?.name}
+                                            avatar={user?.avatar}
                                             key={item.account.id}
                                             content={item.account.content}
                                         />
