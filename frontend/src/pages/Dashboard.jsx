@@ -27,6 +27,8 @@ const Dashboard = () => {
         posts
     } = useBlog();
 
+    console.log("init", initialized);
+
     useEffect(() => {
         if (user) {
             setConnecting(false)
