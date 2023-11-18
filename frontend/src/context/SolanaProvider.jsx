@@ -80,29 +80,21 @@ const SolanaProvider = ({ children }) => {
         if (program && publicKey) {
             try {
                 setTransactionPending(true)
+                const [userPda] = findProgramAddressSync([utf8.encode('user'), publicKey.toBuffer()], program.programId)
+                const name = getRandomName();
+                const avatar = getAvatarUrl(name);
 
-                const [userPda] = findProgramAddressSync([utf8.encode('user'), publicKey.toBuffer()], program.programId);
+                await program.methods
+                    .initUser(name, avatar)
+                    .accounts({
+                        userAccount: userPda,
+                        authority: publicKey,
+                        systemProgram: SystemProgram.programId,
+                    })
+                    .rpc()
 
-                const user = await program.account.userAccount.fetch(userPda);
-
-                if (user) {
-                    setInitialized(true);
-                    setUser(user);
-                    setLastPostId(user.lastPostId);
-                } else {
-                    const name = getRandomName();
-                    const avatar = getAvatarUrl(name);
-
-                    await program.methods
-                        .initUser(name, avatar)
-                        .accounts({
-                            userAccount: userPda,
-                            authority: publicKey,
-                            systemProgram: SystemProgram.programId,
-                        })
-                        .rpc();
-                    setInitialized(true);
-                }
+                    setInitialized(true)
+                    console.log("user is initialized!")
             } catch (error) {
                 console.log(error)
             } finally {
