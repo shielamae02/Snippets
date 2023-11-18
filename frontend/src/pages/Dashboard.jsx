@@ -15,10 +15,13 @@ import {
 
 const Dashboard = () => {
 
-    const [connecting, setConnecting] = useState(false);
     const { select, connected } = useWallet();
-    const [postContent, setPostContent] = useState("");
+    const [connecting, setConnecting] = useState(false);
     const [showModal, setShowModal] = useState(false);
+    const [postContent, setPostContent] = useState("");
+
+    const [avatars, setAvatars] = useState([]);
+    const [randomNames, setRandomNames] = useState([]);
 
     const {
         user,
@@ -39,6 +42,14 @@ const Dashboard = () => {
     const toggleModal = () => {
         setShowModal(!showModal);
     }
+
+    useEffect(() => {
+        const newAvatars = Array.from({ length: posts.length }, () => getAvatarUrl(generateRandomLetters(10)));
+        const newRandomNames = Array.from({ length: posts.length }, () => getRandomName());
+
+        setAvatars(newAvatars);
+        setRandomNames(newRandomNames);
+    }, [posts]); 
 
     return (
         <main className={`bg-[#F4EEF6] w-screen ${initialized && connected ? (posts.length < 4 ? "h-screen" : "h-full") : "h-screen"}`}>
@@ -115,15 +126,12 @@ const Dashboard = () => {
                         {/* Posts View */}
                         {connected && initialized && (
                             <div className="relative overflow-y-auto my-4 w-full flex flex-col">
-                                {posts.map((item) => {
-                                    const randomLetters = generateRandomLetters(10);
-                                    const avatar =  getAvatarUrl(randomLetters);
-                                    const randomName = getRandomName();
+                                {posts.map((item, index) => {
                                     
                                     return (
                                         <PostCard
-                                            username={randomName}
-                                            avatar={avatar}
+                                            username={randomNames[index]}
+                                            avatar={avatars[index]}
                                             key={item.account.id}
                                             content={item.account.content}
                                         />
