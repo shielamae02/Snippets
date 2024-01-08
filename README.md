@@ -12,7 +12,7 @@ To use Snippets, follow these simple steps:
 3. **Cost of Posting:**
     - Each post on Snippets costs approximately 0.02 SOL (Solana's native cryptocurrency). Ensure your wallet has sufficient SOL to cover the posting fee.
 
-
+⠀
 
 ## Features
 - **Anonymous Posting**
@@ -27,9 +27,16 @@ To use Snippets, follow these simple steps:
 -   **Cost of Posting**
 
     Each post on Snippets comes at a cost of approximately 0.02 Sol, adding an element of value to the shared content. This approach not only discourages spam but also contributes to a more curated and meaningful user experience.  
+⠀
 
 
+## Deployment
+The Snippets app is deployed and accessible at **https://sol-snippets.vercel.app/**. Feel free to visit and start sharing your snippets today!
+⠀
+⠀⠀
+⠀
 
----
+
+⠀
 
 Happy Snippetting! 🚀
